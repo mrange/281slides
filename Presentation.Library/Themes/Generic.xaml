@@ -1,0 +1,14 @@
+<ResourceDictionary
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   >
+   <ResourceDictionary.MergedDictionaries>
+      <ResourceDictionary Source="/Presentation.Library;component/Themes/CustomTextBoxes.xaml"/>
+      <ResourceDictionary Source="/Presentation.Library;component/Themes/PopupControl.xaml"/>
+      <ResourceDictionary Source="/Presentation.Library;component/Themes/SearchControl.xaml"/>
+      <ResourceDictionary Source="/Presentation.Library;component/Themes/ElementControl.xaml"/>
+      <ResourceDictionary Source="/Presentation.Library;component/Themes/SlideControl.xaml"/>
+      <ResourceDictionary Source="/Presentation.Library;component/Themes/PresentControl.xaml"/>
+      <ResourceDictionary Source="/Presentation.Library;component/Themes/PresentationControl.xaml"/>
+   </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

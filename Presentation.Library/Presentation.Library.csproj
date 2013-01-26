@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{82570A4A-0E30-4F60-B665-9000F12FEE87}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Presentation.Library</RootNamespace>
+    <AssemblyName>Presentation.Library</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Behaviors\BaseAttachedState.cs" />
+    <Compile Include="Behaviors\Clip.cs" />
+    <Compile Include="Behaviors\DependencyProperties.cs">
+      <DependentUpon>DependencyProperties.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Commands.ttinclude" />
+    <Compile Include="Behaviors\ItemsControlSupport.cs" />
+    <Compile Include="Behaviors\Selection.cs" />
+    <Compile Include="Controls\Panels.cs" />
+    <Compile Include="Controls\Commands.cs">
+      <DependentUpon>Commands.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Controls\ElementControl.cs" />
+    <Compile Include="Behaviors\MouseInteraction.cs" />
+    <Compile Include="Controls\OptionalContentControl.cs" />
+    <Compile Include="Controls\PopupControl.cs" />
+    <Compile Include="Controls\PresentControl.cs" />
+    <Compile Include="Controls\SearchControl.cs" />
+    <Compile Include="Controls\TextBoxes.cs" />
+    <None Include="Controls\ValueConverters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ValueConverters.cs</LastGenOutput>
+    </None>
+    <Compile Include="Controls\ValueConverterActions.cs" />
+    <Compile Include="Controls\ValueConverters.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValueConverters.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Commands.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Commands.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ModelCopier.cs" />
+    <Compile Include="Model\NonModel.cs" />
+    <Compile Include="Model\PictureHelpers.cs" />
+    <Compile Include="Model\ViewModelActions.cs" />
+    <Compile Include="Utility\Common.cs" />
+    <Compile Include="Controls\FixedDimension.cs" />
+    <Compile Include="Controls\SlideControl.cs" />
+    <Compile Include="Behaviors\Command.cs" />
+    <Compile Include="Utility\VisualTreeTraversers.cs" />
+    <Compile Include="Controls\ImageCaptionButton.cs" />
+    <Compile Include="Controls\DependencyProperties.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DependencyProperties.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PresentationControl.cs" />
+    <Compile Include="Model\BaseModelEntity.cs" />
+    <Compile Include="Model\ChangeTracker.cs" />
+    <Compile Include="Model\DependencyProperties.cs">
+      <DependentUpon>DependencyProperties.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Model\ModelActions.cs" />
+    <Compile Include="Utility\BaseCommand.cs" />
+    <Compile Include="Model\ModelCommands.cs" />
+    <Compile Include="Model\ModelContext.cs" />
+    <Compile Include="Model\ModelGenerated.cs">
+      <DependentUpon>ModelGenerated.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Themes\Generic.cs" />
+    <None Include="ValueConverters.ttinclude" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Behaviors\DependencyProperties.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DependencyProperties.cs</LastGenOutput>
+    </None>
+    <None Include="Controls\Commands.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Commands.cs</LastGenOutput>
+    </None>
+    <None Include="Controls\DependencyProperties.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DependencyProperties.cs</LastGenOutput>
+    </None>
+    <None Include="DependencyProperties.ttinclude" />
+    <None Include="Model\Commands.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Commands.cs</LastGenOutput>
+    </None>
+    <None Include="Model\DependencyProperties.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DependencyProperties.cs</LastGenOutput>
+    </None>
+    <None Include="Model\ModelGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModelGenerated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\CustomTextBoxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ElementControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\PopupControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\PresentationControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\PresentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\SearchControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\SlideControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Back.png" />
+    <Resource Include="Images\DeleteSlide.png" />
+    <Resource Include="Images\Download.png" />
+    <Resource Include="Images\DuplicateSlide.png" />
+    <Resource Include="Images\Feedback.png" />
+    <Resource Include="Images\Front.png" />
+    <Resource Include="Images\Layouts.png" />
+    <Resource Include="Images\Movies.png" />
+    <Resource Include="Images\New.png" />
+    <Resource Include="Images\NewShapes.png" />
+    <Resource Include="Images\NewSlide.png" />
+    <Resource Include="Images\Notes.png" />
+    <Resource Include="Images\Open.png" />
+    <Resource Include="Images\Photos.png" />
+    <Resource Include="Images\Present.png" />
+    <Resource Include="Images\Redo.png" />
+    <Resource Include="Images\Save.png" />
+    <Resource Include="Images\Session.png" />
+    <Resource Include="Images\Share.png" />
+    <Resource Include="Images\Text.png" />
+    <Resource Include="Images\Themes.png" />
+    <Resource Include="Images\Undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AlignmentCenter.png" />
+    <Resource Include="Images\AlignmentJustified.png" />
+    <Resource Include="Images\AlignmentLeft.png" />
+    <Resource Include="Images\AlignmentRight.png" />
+    <Resource Include="Images\BulletIndentationDecrease.png" />
+    <Resource Include="Images\BulletIndentationIncrease.png" />
+    <Resource Include="Images\BulletStyleDot.png" />
+    <Resource Include="Images\BulletStyleNumber.png" />
+    <Resource Include="Images\FormattingBold.png" />
+    <Resource Include="Images\FormattingItalic.png" />
+    <Resource Include="Images\FormattingUnderline.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

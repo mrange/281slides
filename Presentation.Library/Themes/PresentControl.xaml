@@ -1,0 +1,29 @@
+﻿<ResourceDictionary
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+   xmlns:Controls="clr-namespace:Presentation.Library.Controls"
+   >
+   <BitmapCache x:Key="PresentControl_BitmapCache"/>
+
+   <Style TargetType="Controls:PresentControl">
+      <Setter Property="Template">
+         <Setter.Value>
+            <ControlTemplate TargetType="Controls:PresentControl">
+               <Grid Background="Black">
+                  <Controls:PresentingSlideControl
+                     x:Name="REQUIRED_FOR_FIRST_ANIMATION"
+                     CacheMode="{StaticResource PresentControl_BitmapCache}"
+                     Slide="{TemplateBinding FirstSlide}"
+                     />
+                  <Controls:PresentingSlideControl
+                     x:Name="REQUIRED_FOR_SECOND_ANIMATION"
+                     CacheMode="{StaticResource PresentControl_BitmapCache}"
+                     Slide="{TemplateBinding SecondSlide}"
+                     />
+               </Grid>               
+            </ControlTemplate>
+         </Setter.Value>
+      </Setter>
+   </Style>
+   
+</ResourceDictionary>

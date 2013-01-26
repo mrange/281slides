@@ -1,0 +1,70 @@
+﻿using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+<#
+   var namespaceName = "Presentation.Library.Behaviors";
+   var model = new DependencyObjectDefinition []
+      {
+// ----------------------------------------------------------------------------
+// MODEL DEFINITION BEGIN:
+// ----------------------------------------------------------------------------
+new DependencyObjectDefinition   
+   {
+      Name        = "ItemsControlSupport",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("int"          , "ZIndex"           ,  flags:PropertyFlags.IsAttached   , attachesToType:"FrameworkElement"    ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "Selection",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("SelectionHandler"         , "Handler"             ,  flags:PropertyFlags.IsAttached   , attachesToType:"FrameworkElement"    ),
+            P ("DependencyObject"         , "Instance"            ,  flags:PropertyFlags.IsAttached   , attachesToType:"FrameworkElement"    ),
+            P ("Visibility"               , "SelectionVisibility" ,  flags:PropertyFlags.IsAttached   , attachesToType:"FrameworkElement" ,  defaultValue:"Visibility.Collapsed"  ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "Clip",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("ClipHandler"        , "Handler"             ,  flags:PropertyFlags.IsAttached   , attachesToType:"FrameworkElement"    ),
+            P ("bool"               , "ToBounds"            ,  flags:PropertyFlags.IsAttached   , attachesToType:"FrameworkElement"    ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "Command",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("ICommand"              , "Instance"            ,  flags:PropertyFlags.IsAttached   , attachesToType:"ButtonBase"       ),
+            P ("object"                , "Parameter"           ,  flags:PropertyFlags.IsAttached   , attachesToType:"DependencyObject" ),
+            P ("CommandHandler"        , "Handler"             ,  flags:PropertyFlags.IsAttached   , attachesToType:"ButtonBase"       ),
+            P ("CommandHandlers"       , "Handlers"            ,  flags:PropertyFlags.IsAttached   ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "MouseInteraction",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("MouseDraggingHandler"  , "DraggingHandler"     ,  flags:PropertyFlags.IsAttached   , attachesToType:"FrameworkElement"    ),
+            P ("MouseRotatingHandler"  , "RotatingHandler"     ,  flags:PropertyFlags.IsAttached   , attachesToType:"FrameworkElement"    ),
+
+            P ("MouseRootType"         , "Root"                ,  flags:PropertyFlags.IsAttached   , attachesToType:"FrameworkElement"    ),
+
+            P ("double"                , "X"                   ,  flags:PropertyFlags.IsAttached   , attachesToType:"FrameworkElement"    ),
+            P ("double"                , "Y"                   ,  flags:PropertyFlags.IsAttached   , attachesToType:"FrameworkElement"    ),
+
+            P ("double"                , "Angle"               ,  flags:PropertyFlags.IsAttached   , attachesToType:"FrameworkElement"    ),
+            P ("Point"                 , "Offset"              ,  flags:PropertyFlags.IsAttached   , attachesToType:"FrameworkElement"    ),
+         },
+   },
+// ----------------------------------------------------------------------------
+// MODEL DEFINITION END:
+// ----------------------------------------------------------------------------
+      };
+#>
+<#@ include file="..\DependencyProperties.ttinclude"              #>

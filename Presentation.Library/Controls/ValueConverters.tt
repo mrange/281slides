@@ -1,0 +1,15 @@
+﻿<#
+   var namespaceName = "Presentation.Library.Controls";
+   var model = new ValueConverterDefinition []
+      {
+// ----------------------------------------------------------------------------
+// MODEL DEFINITION BEGIN:
+// ----------------------------------------------------------------------------
+Def ("Null"                , "object"     , "object"                                   ),
+Def ("TypeToBool"          , "object"     , "bool"          , parameterType:"string"   ),
+// ----------------------------------------------------------------------------
+// MODEL DEFINITION END:
+// ----------------------------------------------------------------------------
+      };
+#>
+<#@ include file="..\ValueConverters.ttinclude"             #>

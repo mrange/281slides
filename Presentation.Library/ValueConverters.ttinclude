@@ -1,0 +1,187 @@
+﻿// ----------------------------------------------------------------------------------------------
+// Copyright (c) Mårten Rånge.
+// ----------------------------------------------------------------------------------------------
+// This source code is subject to terms and conditions of the Microsoft Public License. A 
+// copy of the license can be found in the License.html file at the root of this distribution. 
+// If you cannot locate the  Microsoft Public License, please send an email to 
+// dlr@microsoft.com. By using this source code in any fashion, you are agreeing to be bound 
+//  by the terms of the Microsoft Public License.
+// ----------------------------------------------------------------------------------------------
+// You must not remove this notice, or any other, from this software.
+// ----------------------------------------------------------------------------------------------
+
+// ReSharper disable ConstantNullCoalescingCondition
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
+// ReSharper disable HeuristicUnreachableCode
+// ReSharper disable PartialMethodWithSinglePart
+// ReSharper disable PartialTypeWithSinglePart
+// ReSharper disable RedundantAssignment
+// ReSharper disable RedundantCast
+// ReSharper disable RedundantIfElseBlock
+
+#pragma warning disable 183
+
+namespace <#=namespaceName#>
+{
+   using System;
+   using System.Globalization;
+   using System.Windows;
+   using System.Windows.Data;
+
+<#
+      foreach (var def in model)
+      {
+         if (def.IsMulti)
+         {
+#>
+   public partial class <#=def.Name#>MultiValueConverter : IMultiValueConverter 
+   {
+      public object Convert (object[] values, Type targetType, object parameter, CultureInfo culture)
+      {
+         if (values != null && typeof (<#=def.ToType#>) == targetType)
+         {
+            var froms = values
+               .Select (v => v ?? default (<#=def.FromType#>))
+               .OfType<<#=def.FromType#>> ()
+               .ToArray ();
+            var to = default (<#=def.ToType#>);
+            var handled = false;
+
+            Convert (froms, ref to, parameter as <#=def.ParameterType#>, ref handled);
+
+            if (handled)
+            {
+               return to;
+            }
+            else
+            {
+               return default (<#=def.ToType#>);
+            }
+         }
+         else
+         {
+            return DependencyProperty.UnsetValue;
+         }
+      }
+
+      public object[] ConvertBack (object value, Type[] targetTypes, object parameter, CultureInfo culture)
+      {
+         if ((value == null || value is <#=def.ToType#>) && typeof (<#=def.FromType#>) == targetTypes.FirstOrDefault (t => t != typeof (<#=def.ToType#>)))
+         {
+            var froms = default (<#=def.FromType#>[]);
+            var to = (<#=def.ToType#>) (value ?? default (<#=def.ToType#>));
+            var handled = false;
+
+            ConvertBack (to, targetTypes.Length, ref froms, parameter as <#=def.ParameterType#>, ref handled);
+
+            if (handled)
+            {
+               return froms.Cast<object> ().ToArray ();
+            }
+            else
+            {
+               return Enumerable.Range (0, targetTypes.Length).Select (v => default (<#=def.ToType#>)).ToArray ();
+            }
+         }
+         else
+         {
+            return Enumerable.Range (0, targetTypes.Length).Select (v => DependencyProperty.UnsetValue).ToArray ();
+         }
+      }
+
+      partial void Convert (<#=def.FromType#>[] froms, ref <#=def.ToType#> to, <#=def.ParameterType#> parameter, ref bool handled);
+      partial void ConvertBack (<#=def.ToType#> to, int fromLength, ref <#=def.FromType#>[] froms, <#=def.ParameterType#> parameter, ref bool handled);
+   }
+<#
+         }
+         else
+         {
+#>
+   public partial class <#=def.Name#>ValueConverter : IValueConverter 
+   {
+      public object Convert (object value, Type targetType, object parameter, CultureInfo culture)
+      {
+         if ((value == null || value is <#=def.FromType#>) && typeof (<#=def.ToType#>) == targetType)
+         {
+            var from = (<#=def.FromType#>)(value ?? default (<#=def.FromType#>));
+            var to = default (<#=def.ToType#>);
+            var handled = false;
+
+            Convert (from, ref to, parameter as <#=def.ParameterType#>, ref handled);
+
+            if (handled)
+            {
+               return to;
+            }
+            else
+            {
+               return default (<#=def.ToType#>);
+            }
+         }
+         else
+         {
+            return DependencyProperty.UnsetValue;
+         }
+      }
+
+      public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture)
+      {
+         if ((value == null || value is <#=def.ToType#>) && typeof (<#=def.FromType#>) == targetType)
+         {
+            var from = default (<#=def.FromType#>);
+            var to = (<#=def.ToType#>) (value ?? default (<#=def.ToType#>));
+            var handled = false;
+
+            ConvertBack (to, ref from, parameter as <#=def.ParameterType#>, ref handled);
+
+            if (handled)
+            {
+               return from;
+            }
+            else
+            {
+               return default (<#=def.ToType#>);
+            }
+         }
+         else
+         {
+            return DependencyProperty.UnsetValue;
+         }
+      }
+
+      partial void Convert (<#=def.FromType#> from, ref <#=def.ToType#> to, <#=def.ParameterType#> parameter, ref bool handled);
+      partial void ConvertBack (<#=def.ToType#> to, ref <#=def.FromType#> from, <#=def.ParameterType#> parameter, ref bool handled);
+   }
+<#
+         }
+      }
+   #>
+}
+<#+
+   class ValueConverterDefinition
+   {
+      public string Name;
+      public string FromType;
+      public string ToType;
+      public string ParameterType;
+      public bool IsMulti;
+   }
+
+   static ValueConverterDefinition Def (
+         string name
+      ,  string fromType
+      ,  string toType
+      ,  string parameterType = null     
+      ,  bool isMulti = false
+      )
+   {
+      return new ValueConverterDefinition
+         {
+            Name           = name,
+            FromType       = fromType,
+            ToType         = toType,
+            ParameterType  = parameterType ?? "object",
+            IsMulti        = isMulti,
+         };
+   }
+#>

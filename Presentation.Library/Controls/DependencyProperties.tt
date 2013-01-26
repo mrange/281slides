@@ -1,0 +1,178 @@
+﻿using System;
+using System.Windows.Controls;
+using Presentation.Library.Model;
+<#
+   var namespaceName = "Presentation.Library.Controls";
+   var model = new DependencyObjectDefinition []
+      {
+// ----------------------------------------------------------------------------
+// MODEL DEFINITION BEGIN:
+// ----------------------------------------------------------------------------
+new DependencyObjectDefinition   
+   {
+      Name        = "PresentationControl",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P  ("Model.Presentation", "Presentation"           ),
+
+            C  ("ThemeDefinition"   , "Themes"                 ),
+            C  ("LayoutDefinition"  , "Layouts"                ),
+
+            C  ("PictureDefinition" , "Pictures"               ),
+            C  ("MovieDefinition"   , "Movies"                 ),
+            C  ("ShapeDefinition"   , "Shapes"                 ),
+
+            C  ("string"            , "FontNames"              ),
+            C  ("double"            , "FontSizes"              ),
+
+            P  ("DataTemplate"      , "PictureTemplate"        ),
+            P  ("DataTemplate"      , "MovieTemplate"          ),
+            P  ("DataTemplate"      , "ShapeTemplate"          ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "PresentControl",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P  ("Model.Presentation"   , "Presentation"           ),
+            P  ("Slide"                , "CurrentSlide"           ),
+            P  ("Slide"                , "FirstSlide"             ),
+            P  ("Slide"                , "SecondSlide"            ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "BaseSlideControl",
+      IsBase      = true,
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("Slide"                 , "Slide"                     ),
+            P ("Size"                  , "Dimension"                 ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "EditingSlideControl",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("DependencyObject"      , "SelectedElement"           ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "BaseElementControl",
+      IsBase      = true,
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("BaseElement"           , "Element"                            ),
+
+            P ("DataTemplate"          , "ElementTemplate"                    ),
+            P ("DataTemplate"          , "DefaultElementTemplate"             ),
+            P ("DataTemplate"          , "TextElementTemplate"                ),
+            P ("DataTemplate"          , "ShapeElementTemplate"               ),
+            P ("DataTemplate"          , "PictureElementTemplate"             ),
+            P ("DataTemplate"          , "MovieElementTemplate"               ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "BasePanel",
+      IsBase      = true,
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("object"       , "UIElementState"     ,  flags:PropertyFlags.IsAttached   , attachesToType:"UIElement"    ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "BaseAnimatedPanel",
+      IsBase      = true,
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("TimeSpan"     , "AnimationDuration"  ,   defaultValue:"new TimeSpan (0,0,0,0,400)"),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "AnimatedWrapPanel",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("Orientation"  , "Orientation"      ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "FixedDimension",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("Size"                  , "Dimension"              ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "ImageCaptionButton",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("ImageSource"           , "Image"                  ),
+            P ("string"                , "Caption"                ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "WatermarkTextBox",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("string"             , "Watermark"                 ,  defaultValue:@"""Type to search..."""),
+            P ("Brush"              , "WatermarkBrush"            ,  defaultValue:"new SolidColorBrush (Colors.Gray)"),
+            P ("Visibility"         , "WatermarkVisibility"       ,  defaultValue:"Visibility.Visible"),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "SearchTextBox",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("string"             , "SearchText"       ),
+            P ("TimeSpan"           , "SearchTimeOut"    , defaultValue:"new TimeSpan (0,0,0,0,500)"),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "OptionalContentControl",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("object"                , "OptionalContent"              ),
+            P ("DataTemplate"          , "OptionalContentTemplate"      ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "PopupControl",
+      Properties  = new DependencyPropertyDefinition []
+         {
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name        = "SearchControl",
+      Properties  = new DependencyPropertyDefinition []
+         {
+            P ("string"                , "SearchString"                 ),
+            P ("SearchControlDelegate" , "SearchDelegate"               ),
+            P ("DataTemplate"          , "SearchItemTemplate"           ),
+            C ("DependencyObject"      , "SearchItemsSource"            ),
+            C ("DependencyObject"      , "SearchResultItems"            ),
+            P ("DependencyObject"      , "CurrentSearchResultItem"      ),
+            P ("TimeSpan"              , "SearchTimeOut"                ,  defaultValue:"new TimeSpan (0,0,0,0,500)"),
+            P ("int"                   , "Id"                           ,  flags:PropertyFlags.IsAttached   ),
+            P ("int"                   , "CurrentIndex"                 ,  flags:PropertyFlags.IsAttached   ),
+            P ("int"                   , "DesiredIndex"                 ,  flags:PropertyFlags.IsAttached   ),
+         },
+   },
+// ----------------------------------------------------------------------------
+// MODEL DEFINITION END:
+// ----------------------------------------------------------------------------
+      };
+#>
+<#@ include file="..\DependencyProperties.ttinclude"              #>

@@ -1,0 +1,143 @@
+﻿using System;
+using System.Windows.Media.Imaging;
+<#
+   var namespaceName = "Presentation.Library.Model";
+   var model = new DependencyObjectDefinition []
+      {
+// ----------------------------------------------------------------------------
+// MODEL DEFINITION BEGIN:
+// ----------------------------------------------------------------------------
+new DependencyObjectDefinition   
+   {
+      Name = "Presentation",
+      Properties = new DependencyPropertyDefinition []
+         {
+            P  ("Visibility"  , "NotesVisibility"  ,  defaultValue:"Visibility.Collapsed"),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name = "Slide",
+      Properties = new DependencyPropertyDefinition []
+         {
+            P  ("BaseElement" , "CurrentElement"   ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name = "BaseElement",
+      IsBase = true,
+      Properties = new DependencyPropertyDefinition []
+         {
+            P  ("double"      , "Opacity"             , defaultValue:"1.0"    ),
+            P  ("double"      , "X0"                                          ),
+            P  ("double"      , "Y0"                                          ),
+            P  ("double"      , "X1"                                          ),
+            P  ("double"      , "Y1"                                          ),
+            P  ("double"      , "CenterX"                                     ),
+            P  ("double"      , "CenterY"                                     ),
+            P  ("Transform"   , "ElementTransform"                            ),
+
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name = "TextElement",
+      Properties = new DependencyPropertyDefinition []
+         {
+            P  ("FontFamily"  , "FontFamily"          , defaultValue:@"new FontFamily (""Verdana"")"        ),
+            P  ("Brush"       , "ForegroundBrush"     , defaultValue:@"new SolidColorBrush (Colors.White)"  ),
+            P  ("Brush"       , "BackgroundBrush"     ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name = "ShapeElement",
+      Properties = new DependencyPropertyDefinition []
+         {
+            P  ("Brush"       , "ForegroundBrush"     , defaultValue:@"new SolidColorBrush (Colors.White)"  ),
+            P  ("Brush"       , "BackgroundBrush"     ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name = "PictureElement",
+      Properties = new DependencyPropertyDefinition []
+         {
+            P  ("ImageSource"          , "Source"                       ),
+            P  ("Visibility"           , "DownloadProgressVisibility"   , defaultValue:"Visibility.Collapsed"),
+            P  ("int"                  , "DownloadProgressValue"        ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name = "MovieElement",
+      Properties = new DependencyPropertyDefinition []
+         {
+            P  ("Uri"         , "Source"           ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name     = "BaseDefinition",
+      IsBase   = true,
+      Properties = new DependencyPropertyDefinition []
+         {
+            P ("string"          , "Name"        ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name = "ThemeDefinition",
+      Properties = new DependencyPropertyDefinition []
+         {
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name = "LayoutDefinition",
+      Properties = new DependencyPropertyDefinition []
+         {
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name = "PictureHelpers",
+      Properties = new DependencyPropertyDefinition []
+         {
+            P ("IPicture"              , "Picture"             ,  flags:PropertyFlags.IsAttached   ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name = "PictureDefinition",
+      Properties = new DependencyPropertyDefinition []
+         {
+            P ("string"                , "PictureSource"                ),
+            P ("ImageSource"           , "Source"                       ),
+            P ("Visibility"            , "DownloadProgressVisibility"   , defaultValue:"Visibility.Collapsed"),
+            P ("int"                   , "DownloadProgressValue"        ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name = "MovieDefinition",
+      Properties = new DependencyPropertyDefinition []
+         {
+            P ("string"          , "Source"        ),
+         },
+   },
+new DependencyObjectDefinition   
+   {
+      Name = "ShapeDefinition",
+      Properties = new DependencyPropertyDefinition []
+         {
+            P ("string"          , "Path"        ),
+         },
+   },
+// ----------------------------------------------------------------------------
+// MODEL DEFINITION END:
+// ----------------------------------------------------------------------------
+      };
+#>
+<#@ include file="..\DependencyProperties.ttinclude"              #>

@@ -1,0 +1,304 @@
+﻿// ----------------------------------------------------------------------------------------------
+// Copyright (c) Mårten Rånge.
+// ----------------------------------------------------------------------------------------------
+// This source code is subject to terms and conditions of the Microsoft Public License. A 
+// copy of the license can be found in the License.html file at the root of this distribution. 
+// If you cannot locate the  Microsoft Public License, please send an email to 
+// dlr@microsoft.com. By using this source code in any fashion, you are agreeing to be bound 
+//  by the terms of the Microsoft Public License.
+// ----------------------------------------------------------------------------------------------
+// You must not remove this notice, or any other, from this software.
+// ----------------------------------------------------------------------------------------------
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="System"                                  #>
+<#@ import namespace="System.Globalization"                    #>
+
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
+// ReSharper disable HeuristicUnreachableCode
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable PartialMethodWithSinglePart
+// ReSharper disable PartialTypeWithSinglePart
+// ReSharper disable RedundantAssignment
+// ReSharper disable RedundantCast
+// ReSharper disable RedundantIfElseBlock
+
+namespace <#=namespaceName#>
+{
+// ReSharper disable RedundantUsingDirective
+   using global::Presentation.Library.Utility;
+   using System.Collections.ObjectModel;
+   using System.Diagnostics;
+   using System.Windows.Media;
+   using System.Windows;
+// ReSharper restore RedundantUsingDirective
+
+<#
+   // FOREACH: Generates a partial DependencyObject foreach entity in model
+   foreach (var dependencyObject in model)
+   {
+      var dependencyObjectType   = dependencyObject.Name;
+      var dependencyObjectIsBase = dependencyObject.IsBase;
+#>
+   // -------------------------------------------------------------------------
+
+   // -------------------------------------------------------------------------
+   public <#=dependencyObjectIsBase ? "abstract" : ""#> partial class <#=dependencyObjectType#>
+   {
+      #region Dependency Properties for <#=dependencyObjectType#>
+<#
+      // FOREACH: Generates a Dependency property foreach property in model
+      foreach (var dependencyProperty in dependencyObject.Properties)
+      {
+         var dependencyPropertyName       = dependencyProperty.Name                      ;
+         var dependencyPropertyDepName    = dependencyProperty.Name + "Property"         ;
+         var dependencyPropertyType       = dependencyProperty.Type                      ;
+         var dependencyPropertyDefault    = dependencyProperty.DefaultValue              ;
+         var dependencyPropertyAttached   = dependencyProperty.IsAttached                ;
+         var dependencyPropertyAttachesTo = dependencyProperty.AttachesToType            ;
+         var dependencyPropertyPostFix    = dependencyPropertyAttached
+            ?  "Attached"
+            :  ""
+            ;
+         var onChangeName           = "OnChange_"        + dependencyPropertyName  ;
+#>
+      public static readonly DependencyProperty <#=dependencyPropertyDepName#> = 
+         DependencyProperty.Register<#=dependencyPropertyPostFix#> (
+               "<#=dependencyPropertyName#>"
+            ,  typeof (<#=dependencyPropertyType#>)
+            ,  typeof (<#=dependencyObjectType#>)            
+            ,  new PropertyMetadata (
+                  <#=dependencyPropertyDefault#>
+               ,  <#=onChangeName#>
+               )
+            );
+<#
+         // IF: If attached generate attached event handlers
+         if (dependencyPropertyAttached)
+         {
+#>
+
+      static void <#=onChangeName#> (DependencyObject d, DependencyPropertyChangedEventArgs e)
+      {
+#if DEBUG
+         Debug.WriteLine ("ModelProperty.Change : Prop:<#=dependencyPropertyName#>, Old:{0}, New:{1}, Instance:{2}({3})", e.OldValue, e.NewValue, d.SafeGetHashCode (), d.SafeGetTypeName ());
+#endif
+         var dobj = d as <#=dependencyPropertyAttachesTo#>;
+         if (dobj == null)
+         {
+            return;
+         }
+
+         var oldValue = (<#=dependencyPropertyType#>)e.OldValue;
+         var newValue = (<#=dependencyPropertyType#>)e.NewValue;
+         var handled = false;
+         <#=onChangeName#> (dobj, oldValue, newValue, ref handled);
+      }
+
+<#
+         }
+         else
+         {
+#>
+
+      static void <#=onChangeName#> (DependencyObject d, DependencyPropertyChangedEventArgs e)
+      {
+#if DEBUG
+         Debug.WriteLine ("ModelProperty.Change : Prop:<#=dependencyPropertyName#>, Old:{0}, New:{1}, Instance:{2}({3})", e.OldValue, e.NewValue, d.SafeGetHashCode (), d.SafeGetTypeName ());
+#endif
+         var dobj = d as <#=dependencyObjectType#>;
+         if (dobj == null)
+         {
+            return;
+         }
+
+         var oldValue = (<#=dependencyPropertyType#>)e.OldValue;
+         var newValue = (<#=dependencyPropertyType#>)e.NewValue;
+         var handled = false;
+         dobj.<#=onChangeName#> (oldValue, newValue, ref handled);
+      }
+
+<#
+         }
+      }
+#>
+      #endregion
+      // ----------------------------------------------------------------------
+<#
+      // FOREACH: Generates a property foreach property in model
+      foreach (var dependencyProperty in dependencyObject.Properties)
+      {
+         var dependencyPropertyName       = dependencyProperty.Name                      ;
+         var dependencyPropertyDepName    = dependencyProperty.Name + "Property"         ;
+         var dependencyPropertyType       = dependencyProperty.Type                      ;
+         var dependencyPropertyDefault    = dependencyProperty.DefaultValue              ;
+         var dependencyPropertyAttached   = dependencyProperty.IsAttached                ;
+         var dependencyPropertyAttachesTo = dependencyProperty.AttachesToType            ;
+         var onChangeName           = "OnChange_"        + dependencyPropertyName  ;
+         // IF: If attached generate attached properties signature
+         if (dependencyPropertyAttached)
+         {
+#>
+
+      // ----------------------------------------------------------------------
+      public static <#=dependencyPropertyType#> Get<#=dependencyPropertyName#> (<#=dependencyPropertyAttachesTo#> dobj)
+      {
+         if (dobj != null)
+         {
+            return (<#=dependencyPropertyType#>) dobj.GetValue (<#=dependencyPropertyDepName#>);
+         }
+         else
+         {
+            return <#=dependencyPropertyDefault#>;
+         }
+      }
+
+      public static void Set<#=dependencyPropertyName#> (<#=dependencyPropertyAttachesTo#> dobj, <#=dependencyPropertyType#> value)
+      {
+         if (dobj != null)
+         {
+            dobj.SetValue (<#=dependencyPropertyDepName#>, value);
+         }
+      }
+      // ----------------------------------------------------------------------
+      static partial void <#=onChangeName#> (<#=dependencyPropertyAttachesTo#> dobj, <#=dependencyPropertyType#> oldValue, <#=dependencyPropertyType#> newValue, ref bool handled);
+      // ----------------------------------------------------------------------
+<#
+         }
+         else
+         {
+#>
+
+      // ----------------------------------------------------------------------
+      public <#=dependencyPropertyType#> <#=dependencyPropertyName#>
+      {
+         get
+         {
+            return (<#=dependencyPropertyType#>) GetValue (<#=dependencyPropertyDepName#>);
+         }
+         set
+         {
+            var currentValue = <#=dependencyPropertyName#>;
+
+            if (currentValue != value)
+            {
+               SetValue (<#=dependencyPropertyDepName#>, value);
+            }
+         }
+      }
+      // ----------------------------------------------------------------------
+      partial void <#=onChangeName#> (<#=dependencyPropertyType#> oldValue, <#=dependencyPropertyType#> newValue, ref bool handled);
+      // ----------------------------------------------------------------------
+<#
+         }
+#>
+<#
+      }
+#>
+   }
+<#
+   }
+#>
+   // -------------------------------------------------------------------------
+
+   // -------------------------------------------------------------------------
+}
+
+// ReSharper restore PartialMethodWithSinglePart
+// ReSharper restore RedundantAssignment
+// ReSharper restore PartialTypeWithSinglePart
+// ReSharper restore ConditionIsAlwaysTrueOrFalse
+// ReSharper restore HeuristicUnreachableCode
+
+<#+
+
+   static CultureInfo Culture
+   {
+      get 
+      {
+         return CultureInfo.InvariantCulture;
+      }
+   }
+
+   static bool IsOn<T> (T value, T test)
+      where T : IConvertible
+   {
+      var v = value.ToInt32 (Culture);
+      var t = test.ToInt32 (Culture);
+
+      return (v & t) == t;
+   }
+
+   static DependencyPropertyDefinition P (
+         string type
+      ,  string name
+      ,  string defaultValue = null
+      ,  PropertyFlags flags = 0
+      ,  string attachesToType = null
+      )
+   {
+      return new DependencyPropertyDefinition
+         {
+            Type           = type   ,
+            Name           = name   ,
+            DefaultValue   = defaultValue ?? string.Format ("default ({0})", type),
+            Flags          = flags,
+            AttachesToType = attachesToType ?? "DependencyObject"
+         };
+   }
+
+   static DependencyPropertyDefinition C (string type, string name)
+   {
+      return new DependencyPropertyDefinition
+         {
+            ItemType       = type                                             ,
+            Type           = string.Format ("ObservableCollection<{0}>", type),
+            Name           = name                                             ,
+            DefaultValue   = "null"                                           ,
+            Flags          = PropertyFlags.IsCollection        ,
+         };
+   }
+
+   [Flags]
+   enum PropertyFlags
+   {
+      IsAttached     = 0x2    ,
+      IsCollection   = 0x8000 ,
+   }
+
+
+   class DependencyObjectDefinition 
+   {
+      public string                          Name        ;
+      public bool                            IsBase      ;
+      public DependencyPropertyDefinition [] Properties  ;
+   }
+
+   class DependencyPropertyDefinition 
+   {
+      public string                             ItemType       ;
+      public string                             Type           ;
+      public string                             Name           ;
+      public string                             DefaultValue   ;
+      public PropertyFlags                      Flags          ;
+      public string                             AttachesToType ;
+
+      public bool IsCollection
+      {
+         get
+         {
+            return IsOn (Flags, PropertyFlags.IsCollection);
+         }
+      }
+
+      public bool IsAttached
+      {
+         get
+         {
+            return IsOn (Flags, PropertyFlags.IsAttached);
+         }
+      }
+   }
+
+
+#>

@@ -1,0 +1,107 @@
+﻿<ResourceDictionary
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   xmlns:Controls="clr-namespace:Presentation.Library.Controls" 
+   xmlns:Model="clr-namespace:Presentation.Library.Model" 
+   xmlns:Behaviors="clr-namespace:Presentation.Library.Behaviors"
+   >
+   <BitmapCache x:Key="SlideControl_BitmapCache"/>
+   
+   <Style TargetType="Controls:PresentingSlideControl">
+      <Setter Property="CacheMode" Value="{StaticResource SlideControl_BitmapCache}"/>
+      <Setter Property="Template">
+         <Setter.Value>
+            <ControlTemplate TargetType="Controls:PresentingSlideControl">
+               <Controls:FixedDimension 
+                  x:Name="Root" 
+                  Dimension="{TemplateBinding Dimension}" 
+                  >
+                  <Grid
+                     Behaviors:MouseInteraction.Root="ListenTo" 
+                     Background="Black"
+                     Behaviors:Clip.ToBounds="True"
+                     DataContext="{TemplateBinding Slide}"
+                     >
+                     <Border
+                        x:Name="Background"
+                        BorderThickness="0"
+                        >
+                        <Border.Background>
+                     		<RadialGradientBrush RadiusY="1" Center="0.50,1" GradientOrigin="0.50,1" RadiusX="1">
+                     			<GradientStop Color="#23354D"/>
+                     			<GradientStop Color="#2A2A46" Offset="0.3"/>
+                     			<GradientStop Color="#312140" Offset="0.5"/>
+                     			<GradientStop Color="Black" Offset="1"/>
+                     		</RadialGradientBrush>
+                        </Border.Background>
+                     </Border>
+                     <ItemsControl
+                        ItemsSource="{Binding Path=Elements,Mode=OneWay}"
+                        >
+                        <ItemsControl.ItemTemplate>
+                           <DataTemplate>
+                              <Controls:PresentingElementControl Element="{Binding Mode=OneWay}"/>                           
+                           </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                           <ItemsPanelTemplate>
+                              <Grid/>
+                           </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                     </ItemsControl>
+                 </Grid>
+               </Controls:FixedDimension>
+            </ControlTemplate>
+         </Setter.Value>
+      </Setter>
+   </Style>
+   
+   <Style TargetType="Controls:EditingSlideControl">
+      <Setter Property="Template">
+         <Setter.Value>
+            <ControlTemplate TargetType="Controls:EditingSlideControl">
+               <Controls:FixedDimension 
+                  x:Name="Root" 
+                  Dimension="{TemplateBinding Dimension}" 
+                  >
+                  <Grid
+                     Behaviors:MouseInteraction.Root="ListenTo" 
+                     Background="Black"
+                     Behaviors:Clip.ToBounds="True"
+                     DataContext="{TemplateBinding Slide}"
+                     >
+                     <Border
+                        x:Name="Background"
+                        CacheMode="{StaticResource SlideControl_BitmapCache}"
+                        BorderThickness="0"
+                        >
+                        <Border.Background>
+                     		<RadialGradientBrush RadiusY="1" Center="0.50,1" GradientOrigin="0.50,1" RadiusX="1">
+                     			<GradientStop Color="#23354D"/>
+                     			<GradientStop Color="#2A2A46" Offset="0.3"/>
+                     			<GradientStop Color="#312140" Offset="0.5"/>
+                     			<GradientStop Color="Black" Offset="1"/>
+                     		</RadialGradientBrush>
+                        </Border.Background>
+                     </Border>
+                     <ItemsControl
+                        ItemsSource="{Binding Path=Elements,Mode=OneWay}"
+                        >
+                        <ItemsControl.ItemTemplate>
+                           <DataTemplate>
+                              <Controls:EditingElementControl Element="{Binding Mode=OneWay}"/>                           
+                           </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                           <ItemsPanelTemplate>
+                              <Grid/>
+                           </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                     </ItemsControl>
+                 </Grid>
+               </Controls:FixedDimension>
+            </ControlTemplate>
+         </Setter.Value>
+      </Setter>
+   </Style>
+</ResourceDictionary>

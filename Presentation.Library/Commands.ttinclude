@@ -1,0 +1,142 @@
+﻿// ----------------------------------------------------------------------------------------------
+// Copyright (c) Mårten Rånge.
+// ----------------------------------------------------------------------------------------------
+// This source code is subject to terms and conditions of the Microsoft Public License. A 
+// copy of the license can be found in the License.html file at the root of this distribution. 
+// If you cannot locate the  Microsoft Public License, please send an email to 
+// dlr@microsoft.com. By using this source code in any fashion, you are agreeing to be bound 
+//  by the terms of the Microsoft Public License.
+// ----------------------------------------------------------------------------------------------
+// You must not remove this notice, or any other, from this software.
+// ----------------------------------------------------------------------------------------------
+<#@ template debug="false" hostspecific="false" language="C#"  #>
+<#@ output extension=".cs"                                     #>
+<#@ assembly name="System.Core"                                #>
+<#@ import namespace="System"                                  #>
+<#@ import namespace="System.Globalization"                    #>
+<#@ import namespace="System.Linq"                             #>
+
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
+// ReSharper disable PartialMethodWithSinglePart
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable ConvertIfStatementToNullCoalescingExpression
+
+namespace <#=namespaceName#>
+{
+   using Utility;
+   using System;
+   using System.Windows.Input;
+<#
+   // FOREACH: Generates a ModelEntity foreach entity in model
+   foreach (var modelEntity in model)
+   {
+      var modelEntityType = modelEntity.Name;
+#>
+   partial class <#=modelEntityType#>
+   {
+      #region Commands for <#=modelEntityType#>
+<#
+
+      // FOREACH: Generates a command field foreach command in model
+      foreach (var command in modelEntity.Commands)
+      {
+         var commandName         = command.Name;
+         var commandActionName   = "Command_" + commandName;
+         var commandMemberName   = "m_cmd" + commandName;
+         var commandType         = commandName + "CommandType";
+#>
+
+      <#=commandType#> <#=commandMemberName#>;
+
+      bool <#=commandActionName#> (CommandType commandType, object parameter)
+      {
+         var canExecute = false;
+         <#=commandActionName#> (commandType, parameter, ref canExecute);
+         return canExecute;
+      }
+<#
+      }
+#>
+      #endregion
+
+<#
+      // FOREACH: Generates a command property for each commmand
+      foreach (var command in modelEntity.Commands)
+      {
+         var commandName         = command.Name;
+         var commandCommandName  = commandName + "Command";
+         var commandActionName   = "Command_" + commandName;
+         var commandMemberName   = "m_cmd" + commandName;
+         var commandType         = commandName + "CommandType";
+#>
+
+      // ----------------------------------------------------------------------
+      public class <#=commandType#> : BaseCommand
+      {
+         public <#=commandType#> (
+            Func<CommandType, object, bool> commandAction
+            ) 
+            :  base (commandAction)
+         {
+         }
+      }
+      // ----------------------------------------------------------------------
+      public void <#=commandName#> (object parameter = null)
+      {
+         var command = <#=commandCommandName#>;
+         command.Execute (parameter);
+      }
+      // ----------------------------------------------------------------------
+      public ICommand <#=commandCommandName#>
+      {
+         get
+         {
+            if (<#=commandMemberName#> == null)
+            {
+               <#=commandMemberName#> = new <#=commandType#> (
+                  <#=commandActionName#>);
+            }
+            return <#=commandMemberName#>;
+         }
+      }
+      // ----------------------------------------------------------------------
+      partial void <#=commandActionName#> (CommandType commandType, object parameter, ref bool canExecute);
+      // ----------------------------------------------------------------------
+<#
+      }
+#>
+
+   }
+<#
+   }
+#>
+}
+
+<#+
+   static CultureInfo Culture
+   {
+      get 
+      {
+         return CultureInfo.InvariantCulture;
+      }
+   }
+
+   static CommandDefinition Cmd (string name)
+   {
+      return new CommandDefinition
+         {
+            Name           = name                                             ,
+         };
+   }
+
+   class CommandClassDefinition 
+   {
+      public string                  Name        ;
+      public CommandDefinition []    Commands    = new CommandDefinition [0];
+   }
+
+   class CommandDefinition 
+   {
+      public string                       Name        ;
+   }
+#>

@@ -1,0 +1,360 @@
+﻿<ResourceDictionary
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+   xmlns:Controls="clr-namespace:Presentation.Library.Controls" 
+   xmlns:Behaviors="clr-namespace:Presentation.Library.Behaviors"
+   >
+   <BitmapCache x:Key="ElementControl_BitmapCache"/>
+   
+	<Style x:Key="ElementControl_ElementTextBox" TargetType="TextBox">
+		<Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="BorderBrush" Value="Transparent"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Foreground" Value="White"/>
+		<Setter Property="CaretBrush" Value="White"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="TextBox">
+					<Grid x:Name="RootElement">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="MouseOver">
+								</VisualState>
+								<VisualState x:Name="Disabled">
+								</VisualState>
+								<VisualState x:Name="ReadOnly">
+									<Storyboard>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ReadOnlyVisualElement" Storyboard.TargetProperty="Opacity">
+											<SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+										</DoubleAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused">
+								</VisualState>
+								<VisualState x:Name="Unfocused">
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="ValidationStates">
+								<VisualState x:Name="Valid"/>
+								<VisualState x:Name="InvalidUnfocused">
+								</VisualState>
+								<VisualState x:Name="InvalidFocused">
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<ContentControl 
+                     x:Name="ContentElement" 
+                     BorderThickness="0" 
+                     IsTabStop="False" 
+                     Padding="{TemplateBinding Padding}"
+                     />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+   
+   <Style x:Key="ElementControl_MouseDragBorder" TargetType="Border">
+      <Setter Property="BorderThickness" Value="2"/>
+      <Setter Property="Background" Value="Black"/>
+      <Setter Property="BorderBrush" Value="White"/>
+      <Setter Property="Width" Value="12"/>
+      <Setter Property="Height" Value="12"/>
+      <Setter Property="CacheMode" Value="{StaticResource ElementControl_BitmapCache}"/>
+      <Setter Property="RenderTransform">
+         <Setter.Value>
+            <TranslateTransform X="-6" Y="-6"/>
+         </Setter.Value>
+      </Setter>
+   </Style>
+   
+   <DataTemplate x:Key="ElementControl_IsPresenting_TextElement">
+      <Border
+         BorderThickness="0"
+         Background="{Binding Path=BackgroundBrush,Mode=OneWay}"
+         >
+         <TextBlock 
+            Text="{Binding Path=Text,Mode=OneWay}"
+            Foreground="{Binding Path=ForegroundBrush,Mode=OneWay}"
+            FontSize="{Binding Path=FontSize,Mode=OneWay}"
+            FontFamily="{Binding Path=FontFamily,Mode=OneWay}"
+            >
+         </TextBlock>
+      </Border>         
+   </DataTemplate>
+
+   <DataTemplate x:Key="ElementControl_IsEditing_TextElement">
+      <TextBox 
+         Style="{StaticResource ElementControl_ElementTextBox}"         
+         Text="{Binding Path=Text,Mode=TwoWay}"
+         Width="{Binding Path=Width,Mode=OneWay}"
+         Height="{Binding Path=Height,Mode=OneWay}"
+         FontSize="{Binding Path=FontSize,Mode=OneWay}"
+         Background="{Binding Path=BackgroundBrush,Mode=OneWay}"
+         Foreground="{Binding Path=ForegroundBrush,Mode=OneWay}"
+         FontFamily="{Binding Path=FontFamily,Mode=OneWay}"
+         >
+      </TextBox>
+   </DataTemplate>
+   
+   <DataTemplate x:Key="ElementControl_IsPresenting_PictureElement">
+      <Image
+         Stretch="Uniform"
+         Source="{Binding Path=Source,Mode=OneWay}"
+         Width="{Binding Path=Width,Mode=OneWay}"
+         Height="{Binding Path=Height,Mode=OneWay}"
+         />
+   </DataTemplate>
+   
+   <DataTemplate x:Key="ElementControl_IsEditing_PictureElement">
+      <Grid>
+         <Image
+            Stretch="Uniform"
+            Source="{Binding Path=Source,Mode=OneWay}"
+            Width="{Binding Path=Width,Mode=OneWay}"
+            Height="{Binding Path=Height,Mode=OneWay}"
+            />
+         <StackPanel VerticalAlignment="Center">
+            <ProgressBar 
+               Margin="4"
+               Height="24"
+               Minimum="0"
+               Maximum="100"
+               Visibility="{Binding Path=DownloadProgressVisibility,Mode=OneWay}"
+               Value="{Binding Path=DownloadProgressValue,Mode=OneWay}"
+               >
+               
+            </ProgressBar>
+         </StackPanel>            
+      </Grid>
+   </DataTemplate>
+   
+   <DataTemplate x:Key="ElementControl_MovieElement">
+      <MediaElement
+         Stretch="Uniform"
+         Source="{Binding Path=Source,Mode=OneWay}"
+         Width="{Binding Path=Width,Mode=OneWay}"
+         Height="{Binding Path=Height,Mode=OneWay}"
+         />
+   </DataTemplate>
+   
+   <DataTemplate x:Key="ElementControl_ShapeElement">
+      <Path
+         Stretch="Fill"
+         Fill="White"
+         Stroke="Black"
+         Data="{Binding Path=Path,Mode=OneWay}"
+         Width="{Binding Path=Width,Mode=OneWay}"
+         Height="{Binding Path=Height,Mode=OneWay}"
+         />
+   </DataTemplate>
+   
+   <Style TargetType="Controls:PresentingElementControl">
+      <Setter Property="TextElementTemplate" Value="{StaticResource ElementControl_IsPresenting_TextElement}"/>
+      <Setter Property="ShapeElementTemplate" Value="{StaticResource ElementControl_ShapeElement}"/>
+      <Setter Property="PictureElementTemplate" Value="{StaticResource ElementControl_IsPresenting_PictureElement}"/>
+      <Setter Property="MovieElementTemplate" Value="{StaticResource ElementControl_MovieElement}"/>
+      <Setter Property="Template">
+         <Setter.Value>
+            <ControlTemplate TargetType="Controls:PresentingElementControl">
+               <Canvas
+                  x:Name="Root"
+                  DataContext="{TemplateBinding Element}"
+                  RenderTransform="{Binding Path=ElementTransform,Mode=OneWay}"
+                  >
+                  <ContentControl 
+                     Opacity="{Binding Opacity, Mode=OneWay}"
+                     Canvas.Left="{Binding Path=Left,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=Top,Mode=OneWay}" 
+                     Width="{Binding Path=Width,Mode=OneWay}"
+                     Height="{Binding Path=Height,Mode=OneWay}"
+                     Content="{Binding Mode=OneWay}"
+                     ContentTemplate="{TemplateBinding ElementTemplate}" 
+                     />
+               </Canvas>            
+            </ControlTemplate>            
+         </Setter.Value>
+      </Setter>
+   </Style>
+   
+   <Style TargetType="Controls:EditingElementControl">
+
+      <Setter Property="TextElementTemplate" Value="{StaticResource ElementControl_IsEditing_TextElement}"/>
+      <Setter Property="ShapeElementTemplate" Value="{StaticResource ElementControl_ShapeElement}"/>
+      <Setter Property="PictureElementTemplate" Value="{StaticResource ElementControl_IsEditing_PictureElement}"/>
+      <Setter Property="MovieElementTemplate" Value="{StaticResource ElementControl_MovieElement}"/>
+      
+      <Setter Property="Template">
+         <Setter.Value>
+            <ControlTemplate TargetType="Controls:EditingElementControl">
+               <Canvas
+                  x:Name="Root"
+                  DataContext="{TemplateBinding Element}"
+                  Behaviors:MouseInteraction.Root="TransformTo" 
+                  RenderTransform="{Binding Path=ElementTransform,Mode=OneWay}"
+                  Behaviors:ItemsControlSupport.ZIndex="{Binding Path=ZIndex, Mode=OneWay}"
+                  >
+                  <Grid 
+                     Canvas.Left="{Binding Path=Left,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=Top,Mode=OneWay}" 
+                     Width="{Binding Path=Width,Mode=OneWay}"
+                     Height="{Binding Path=Height,Mode=OneWay}"
+                     Visibility="{Binding Path=(Behaviors:Selection.SelectionVisibility), Mode=OneWay, ElementName=Content}"
+                     >
+                     <Border 
+                        Margin="-2"
+                        Background="#40FFFFFF"
+                        BorderThickness="2"
+                        BorderBrush="#575757"
+                        />
+                  </Grid>
+                  <ContentControl 
+                     x:Name="Content"
+                     Opacity="{Binding Opacity, Mode=OneWay}"
+                     Canvas.Left="{Binding Path=Left,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=Top,Mode=OneWay}" 
+                     Width="{Binding Path=Width,Mode=OneWay}"
+                     Height="{Binding Path=Height,Mode=OneWay}"
+                     Behaviors:Selection.Instance="{Binding Mode=OneWay}"
+                     Content="{Binding Mode=OneWay}"
+                     ContentTemplate="{TemplateBinding ElementTemplate}"
+                     />
+                  
+                  <Rectangle 
+                     Stroke="#CCC" 
+                     StrokeThickness="2" 
+                     StrokeDashArray="8 12"
+                     Canvas.Left="{Binding Path=Left,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=Top,Mode=OneWay}" 
+                     Width="{Binding Path=Width,Mode=OneWay}"
+                     Height="{Binding Path=Height,Mode=OneWay}"
+                     />
+                  
+                  <Ellipse
+                     Canvas.Left="{Binding Path=CenterX,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=CenterY,Mode=OneWay}" 
+                     Behaviors:MouseInteraction.X="{Binding Path=CenterX,Mode=TwoWay}"
+                     Behaviors:MouseInteraction.Y="{Binding Path=CenterY,Mode=TwoWay}"
+                     Width="48"
+                     Height="48"
+                     Stroke="#CCC"
+                     StrokeThickness="2"
+                     Fill="#40000000"
+                     Cursor="Hand"
+                     CacheMode="{StaticResource ElementControl_BitmapCache}"
+                     >
+                     <Ellipse.RenderTransform>
+                        <TranslateTransform X="-24" Y="-24"/>
+                     </Ellipse.RenderTransform>
+                  </Ellipse>
+
+                  <Border 
+                     Cursor="Hand"
+                     Canvas.Left="{Binding Path=X0,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=Y0,Mode=OneWay}" 
+                     Behaviors:MouseInteraction.X="{Binding Path=X0,Mode=TwoWay}"
+                     Behaviors:MouseInteraction.Y="{Binding Path=Y0,Mode=TwoWay}"
+                     Style="{StaticResource ElementControl_MouseDragBorder}"
+                     />
+                  <Border 
+                     Cursor="Hand"
+                     Canvas.Left="{Binding Path=X1,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=Y0,Mode=OneWay}" 
+                     Behaviors:MouseInteraction.X="{Binding Path=X1,Mode=TwoWay}"
+                     Behaviors:MouseInteraction.Y="{Binding Path=Y0,Mode=TwoWay}"
+                     Style="{StaticResource ElementControl_MouseDragBorder}"
+                     />
+                  <Border 
+                     Cursor="Hand"
+                     Canvas.Left="{Binding Path=X0,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=Y1,Mode=OneWay}" 
+                     Behaviors:MouseInteraction.X="{Binding Path=X0,Mode=TwoWay}"
+                     Behaviors:MouseInteraction.Y="{Binding Path=Y1,Mode=TwoWay}"
+                     Style="{StaticResource ElementControl_MouseDragBorder}"
+                     />
+                  <Border 
+                     Cursor="Hand"
+                     Canvas.Left="{Binding Path=X1,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=Y1,Mode=OneWay}" 
+                     Behaviors:MouseInteraction.X="{Binding Path=X1,Mode=TwoWay}"
+                     Behaviors:MouseInteraction.Y="{Binding Path=Y1,Mode=TwoWay}"
+                     Style="{StaticResource ElementControl_MouseDragBorder}"
+                     />
+
+                  <Border 
+                     Cursor="SizeWE"
+                     Canvas.Left="{Binding Path=X0,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=CenterY,Mode=OneWay}" 
+                     Behaviors:MouseInteraction.X="{Binding Path=X0,Mode=TwoWay}"
+                     Style="{StaticResource ElementControl_MouseDragBorder}"
+                     />
+
+                  <Border 
+                     Cursor="SizeWE"
+                     Canvas.Left="{Binding Path=X1,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=CenterY,Mode=OneWay}" 
+                     Behaviors:MouseInteraction.X="{Binding Path=X1,Mode=TwoWay}"
+                     Style="{StaticResource ElementControl_MouseDragBorder}"
+                     />
+                  
+                  <Border 
+                     Cursor="SizeNS"
+                     Canvas.Left="{Binding Path=CenterX,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=Y0,Mode=OneWay}" 
+                     Behaviors:MouseInteraction.Y="{Binding Path=Y0,Mode=TwoWay}"
+                     Style="{StaticResource ElementControl_MouseDragBorder}"
+                     />
+
+                  <Border 
+                     Cursor="SizeNS"
+                     Canvas.Left="{Binding Path=CenterX,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=Y1,Mode=OneWay}" 
+                     Behaviors:MouseInteraction.Y="{Binding Path=Y1,Mode=TwoWay}"
+                     Style="{StaticResource ElementControl_MouseDragBorder}"
+                     />
+                  
+                  <!--<StackPanel
+                     Canvas.Left="{Binding Path=Left,Mode=OneWay}"
+                     Canvas.Top="{Binding Path=Top,Mode=OneWay}" 
+                     CacheMode="{StaticResource ElementControl_BitmapCache}">
+                     <StackPanel.RenderTransform>
+                        <TranslateTransform Y="-49"/>
+                     </StackPanel.RenderTransform>
+                     <Ellipse
+                        Behaviors:MouseInteraction.Angle="{Binding Path=Angle,Mode=TwoWay}"
+                        Behaviors:MouseInteraction.Offset="0,41"
+                        Width="17"
+                        Height="17"
+                        Stroke="#CCC"
+                        StrokeThickness="2"
+                        >
+                        <Ellipse.RenderTransform>
+                           <TranslateTransform X="-8"/>
+                        </Ellipse.RenderTransform>
+                        <Ellipse.Fill>
+                     		<RadialGradientBrush GradientOrigin="0.3,0.3">
+                     			<GradientStop Color="White"/>
+                     			<GradientStop Color="#0E510C" Offset="1"/>
+                     			<GradientStop Color="#0EE40B" Offset="0.3"/>
+                     		</RadialGradientBrush>
+                        </Ellipse.Fill>
+                     </Ellipse>
+                     <Border
+                        BorderBrush="#CCC"
+                        BorderThickness="2,0,0,0"
+                        Width="17"
+                        Height="32"
+                        >
+                     </Border>
+                  </StackPanel>-->
+                  
+                  
+               </Canvas>
+            </ControlTemplate>
+         </Setter.Value>
+      </Setter>
+   </Style>
+</ResourceDictionary>

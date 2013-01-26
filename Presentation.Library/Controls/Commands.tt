@@ -1,0 +1,48 @@
+﻿<#
+   var namespaceName = "Presentation.Library.Controls";
+   var model = new CommandClassDefinition []
+      {
+// ----------------------------------------------------------------------------
+// MODEL DEFINITION BEGIN:
+// ----------------------------------------------------------------------------
+new CommandClassDefinition   
+   {
+      Name = "PresentationControl",
+      Commands = new CommandDefinition []
+         {
+            Cmd   ("Present"              ),
+
+            Cmd   ("NewPresentation"      ),
+            Cmd   ("OpenPresentation"     ),
+            Cmd   ("SavePresentation"     ),
+            Cmd   ("SharePresentation"    ),
+
+            Cmd   ("Feedback"             ),
+            Cmd   ("Session"              ),
+
+            Cmd   ("PauseChangeTracking"  ),
+            Cmd   ("ResumeChangeTracking" ),
+
+            Cmd   ("InsertTextElement"    ),
+            Cmd   ("InsertPhotoElement"   ),
+            Cmd   ("InsertMovieElement"   ),
+            Cmd   ("InsertShapeElement"   ),
+
+            Cmd   ("SelectTheme"          ),
+            Cmd   ("SelectLayout"         ),
+         },
+   },
+new CommandClassDefinition   
+   {
+      Name = "PopupControl",
+      Commands = new CommandDefinition []
+         {
+            Cmd   ("Close"             ),
+         },
+   },
+// ----------------------------------------------------------------------------
+// MODEL DEFINITION END:
+// ----------------------------------------------------------------------------
+      };
+#>
+<#@ include file="..\Commands.ttinclude"              #>

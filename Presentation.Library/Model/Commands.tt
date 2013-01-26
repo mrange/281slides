@@ -1,0 +1,41 @@
+﻿<#
+   var namespaceName = "Presentation.Library.Model";
+   var model = new CommandClassDefinition []
+      {
+// ----------------------------------------------------------------------------
+// MODEL DEFINITION BEGIN:
+// ----------------------------------------------------------------------------
+new CommandClassDefinition   
+   {
+      Name = "Presentation",
+      Commands = new CommandDefinition []
+         {
+            Cmd   ("NewSlide"             ),
+            Cmd   ("DuplicateSlide"       ),
+            Cmd   ("DeleteSlide"          ),
+
+            Cmd   ("Undo"                 ),
+            Cmd   ("Redo"                 ),
+
+            Cmd   ("ToggleNotes"          ),
+         },
+   },
+new CommandClassDefinition   
+   {
+      Name = "Slide",
+      Commands = new CommandDefinition []
+         {
+            Cmd   ("NewShape"             ),
+            Cmd   ("NewPicture"           ),
+            Cmd   ("NewText"              ),
+
+            Cmd   ("BringToFront"         ),
+            Cmd   ("SendToBack"           ),
+         },
+   },
+// ----------------------------------------------------------------------------
+// MODEL DEFINITION END:
+// ----------------------------------------------------------------------------
+      };
+#>
+<#@ include file="..\Commands.ttinclude"              #>

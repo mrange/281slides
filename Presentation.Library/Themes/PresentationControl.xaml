@@ -1,0 +1,834 @@
+﻿<ResourceDictionary
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   xmlns:Controls="clr-namespace:Presentation.Library.Controls" 
+   xmlns:Model="clr-namespace:Presentation.Library.Model" 
+   xmlns:Behaviors="clr-namespace:Presentation.Library.Behaviors"
+   >
+   <Controls:TypeToBoolValueConverter x:Key="PresentationControl_TypeToBoolValueConverter"/>
+   
+   <BitmapCache x:Key="PresentationControl_BitmapCache"/>
+
+   <LinearGradientBrush x:Key="PresentationControl_ButtonFocusBrush" EndPoint="0,1">
+      <GradientStop Offset="0" Color="#80000000"/>
+      <GradientStop Offset="1" Color="#40000000"/>
+   </LinearGradientBrush>
+   
+   <LinearGradientBrush x:Key="PresentationControl_GrayBackground" EndPoint="0,1">
+      <GradientStop Offset="0" Color="#E2E2E2"/>
+      <GradientStop Offset="1" Color="#C7C7C7"/>
+   </LinearGradientBrush>
+
+   <LinearGradientBrush x:Key="PresentationControl_ButtonBackground" EndPoint="0,1">
+      <GradientStop Offset="0" Color="#E3E3E3"/>
+      <GradientStop Offset="1" Color="#BFBFBF"/>
+   </LinearGradientBrush>
+   
+   <Style x:Key="PresentationControl_FontSelector" TargetType="ComboBox">
+      <Setter Property="IsEnabled" Value="False"/>
+      <Setter Property="Height" Value="17"/>
+      <Setter Property="BorderBrush" Value="#575757"/>
+      <Setter Property="Background" Value="{StaticResource PresentationControl_ButtonBackground}"/>
+   </Style>
+   
+   <Style x:Key="PresentationControl_OpacityControl" TargetType="Slider">
+      <Setter Property="IsEnabled" Value="False"/>
+      <Setter Property="Height" Value="17"/>
+      <Setter Property="Width" Value="100"/>
+      <Setter Property="Minimum" Value="0"/>
+      <Setter Property="LargeChange" Value="50"/>
+      <Setter Property="SmallChange" Value="10"/>
+      <Setter Property="Maximum" Value="100"/>
+   </Style>
+   
+   <DataTemplate x:Key="PresentationControl_OverviewSlide">
+      <Controls:PresentingSlideControl Slide="{Binding Mode=OneWay}"/>
+   </DataTemplate>
+
+   <DataTemplate x:Key="PresentationControl_ShapeDefinition">
+      <Grid CacheMode="{StaticResource PresentationControl_BitmapCache}">
+         <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+         </Grid.RowDefinitions>
+      		<Border 
+               Grid.Row="0"
+               Margin="8"
+               Padding="8"
+               BorderBrush="#1A489B" 
+               BorderThickness="2" 
+               Width="64" Height="64" 
+               CornerRadius="8"
+               >
+               <Border.Effect>
+                  <DropShadowEffect Opacity="0.4" BlurRadius="12" ShadowDepth="6" />
+               </Border.Effect>
+      			<Border.Background>
+      				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+      					<GradientStop Color="#739AFA"/>
+      					<GradientStop Color="#2F62C0" Offset="1"/>
+      				</LinearGradientBrush>
+      			</Border.Background>
+            <Path 
+               Stroke="Black"
+               StrokeThickness="2"
+               Fill="White"
+               Stretch="Fill"
+               Data="{Binding Path=Path, Mode=OneWay}"
+               />
+         </Border>
+         <TextBlock Grid.Row="1" Text="{Binding Path=Name, Mode=OneWay}" TextAlignment="Center"/>
+      </Grid>
+   </DataTemplate>
+
+   <DataTemplate x:Key="PresentationControl_PictureDefinition">
+      <Grid CacheMode="{StaticResource PresentationControl_BitmapCache}">
+         <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+         </Grid.RowDefinitions>
+         <Image 
+            Margin="8"
+            MinWidth="150"
+            Height="150"
+            Source="{Binding Path=Source}"
+            >
+            <Image.Effect>
+               <DropShadowEffect Opacity="0.4" BlurRadius="12" ShadowDepth="6" />
+            </Image.Effect>
+         </Image>
+         <TextBlock Grid.Row="1" Text="{Binding Path=Name, Mode=OneWay}" TextAlignment="Center"/>
+      </Grid>
+   </DataTemplate>
+
+   <Style x:Key="PresentationControl_PlainPopup" TargetType="Controls:PopupControl">
+      <Setter Property="VerticalAlignment" Value="Stretch"/>
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="Template">
+         <Setter.Value>
+            <ControlTemplate TargetType="Controls:PopupControl">
+               <Grid Background="Red" MinHeight="200" MinWidth="200">
+               <ContentPresenter
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  />
+                  </Grid>
+            </ControlTemplate>
+         </Setter.Value>
+      </Setter>
+   </Style>
+   
+   <Style x:Key="PresentationControl_Seperator" TargetType="Border">
+      <Setter Property="BorderThickness" Value="0,0,1,0"/>
+      <Setter Property="BorderBrush" Value="#5F5F5F"/>
+      <Setter Property="Width" Value="11"/>
+      <Setter Property="Height" Value="21"/>
+   </Style>
+   
+   <Style x:Key="PresentationControl_ToolBarButton" TargetType="RadioButton">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Foreground" Value="Transparent"/>
+      <Setter Property="IsEnabled" Value="False"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="Margin" Value="0"/>
+		<Setter Property="Width" Value="22"/>
+		<Setter Property="Height" Value="17"/>
+      
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="RadioButton">
+					<Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="MouseOver">
+                           <Storyboard>
+                              <DoubleAnimation 
+                                 Storyboard.TargetName="Bd" 
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="1"
+                                 Duration="00:00:00"
+                                 />
+                           </Storyboard>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+                           <Storyboard>
+                              <DoubleAnimation 
+                                 Storyboard.TargetName="Bd" 
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="1"
+                                 Duration="00:00:00"
+                                 />
+                           </Storyboard>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+                           <Storyboard>
+                              <DoubleAnimation 
+                                 Storyboard.TargetName="Cnt" 
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="0.4"
+                                 Duration="00:00:00"
+                                 />
+                           </Storyboard>
+								</VisualState>
+								</VisualStateGroup>
+						   <VisualStateGroup x:Name="CheckStates">
+							   <VisualState x:Name="Checked">
+                           <Storyboard>
+                              <DoubleAnimation 
+                                 Storyboard.TargetName="Bd" 
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="1"
+                                 Duration="00:00:00"
+                                 />
+                           </Storyboard>                                 
+						      </VisualState>
+							   <VisualState x:Name="Unchecked"/>
+						   </VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+                  <Border 
+                     x:Name="Cnt" 
+                     CacheMode="{StaticResource PresentationControl_BitmapCache}" 
+                     BorderBrush="#575757" 
+                     BorderThickness="{TemplateBinding BorderThickness}"
+                     Background="{StaticResource PresentationControl_ButtonBackground}"
+                     >
+                     <ContentPresenter 
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Center" 
+                        />
+                  </Border>
+                  <Border 
+                     x:Name="Bd"
+                     BorderThickness="0" 
+                     BorderBrush="#696969"
+                     Opacity="0"
+                     Background="{StaticResource PresentationControl_ButtonFocusBrush}"
+                     CacheMode="{StaticResource PresentationControl_BitmapCache}"
+                     >
+                  </Border>
+   		      </Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+   
+   
+   <Style x:Key="PresentationControl_BigButton" TargetType="Controls:ImageCaptionButton">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Foreground" Value="Transparent"/>
+      <Setter Property="IsEnabled" Value="false"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="Margin" Value="0"/>
+		<Setter Property="Height" Value="58"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Controls:ImageCaptionButton">
+					<Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="MouseOver">
+                           <Storyboard>
+                              <DoubleAnimation 
+                                 Storyboard.TargetName="Bd" 
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="1"
+                                 Duration="00:00:00"
+                                 />
+                           </Storyboard>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+								</VisualState>
+								<VisualState x:Name="Disabled">
+                           <Storyboard>
+                              <DoubleAnimation 
+                                 Storyboard.TargetName="Cnt" 
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="0.4"
+                                 Duration="00:00:00"
+                                 />
+                           </Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+                  <Border 
+                     x:Name="Bd"
+                     BorderThickness="1,0,1,0" 
+                     BorderBrush="#696969"
+                     Opacity="0"
+                     Background="{StaticResource PresentationControl_ButtonFocusBrush}"
+                     CacheMode="{StaticResource PresentationControl_BitmapCache}"
+                     >
+                  </Border>
+                  <Grid x:Name="Cnt" Margin="8,0,8,0" CacheMode="{StaticResource PresentationControl_BitmapCache}">
+                     <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="18"/>
+                     </Grid.RowDefinitions>
+                     <Image Grid.Row="0" HorizontalAlignment="Center" Stretch="None" Source="{TemplateBinding Image}"/>
+                     <TextBlock Grid.Row="1" HorizontalAlignment="Center" Foreground="Black" Text="{TemplateBinding Caption}"/>                     
+                  </Grid>
+   		      </Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+   
+	<Style x:Key="PresentationControl_SmallButton" TargetType="Controls:ImageCaptionButton">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Foreground" Value="Transparent"/>
+      <Setter Property="IsEnabled" Value="false"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="Margin" Value="0"/>
+		<Setter Property="MinWidth" Value="29"/>
+		<Setter Property="Height" Value="29"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Controls:ImageCaptionButton">
+					<Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="MouseOver">
+                           <Storyboard>
+                              <DoubleAnimation 
+                                 Storyboard.TargetName="Bd" 
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="1"
+                                 Duration="00:00:00"
+                                 />
+                           </Storyboard>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+								</VisualState>
+								<VisualState x:Name="Disabled">
+                           <Storyboard>
+                              <DoubleAnimation 
+                                 Storyboard.TargetName="Cnt" 
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="0.4"
+                                 Duration="00:00:00"
+                                 />
+                           </Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+                  <Border 
+                     x:Name="Bd"
+                     BorderThickness="1,0,1,0" 
+                     BorderBrush="#696969"
+                     Opacity="0"
+                     Background="{StaticResource PresentationControl_ButtonFocusBrush}"
+                     CacheMode="{StaticResource PresentationControl_BitmapCache}"
+                     >
+                  </Border>
+   					<StackPanel x:Name="Cnt"  Orientation="Horizontal" Margin="8,0,8,0" CacheMode="{StaticResource PresentationControl_BitmapCache}">
+                     <Image VerticalAlignment="Center" Stretch="None" Source="{TemplateBinding Image}"/>
+                     <TextBlock Margin="4,0,0,0" VerticalAlignment="Center" Foreground="Black" Text="{TemplateBinding Caption}"/>
+   					</StackPanel>
+               </Grid>
+		      </ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+   
+	<Style x:Key="PresentationControl_OverviewItem" TargetType="ListBoxItem">
+		<Setter Property="Padding" Value="6"/>
+		<Setter Property="HorizontalContentAlignment" Value="Left"/>
+		<Setter Property="VerticalContentAlignment" Value="Top"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="TabNavigation" Value="Local"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ListBoxItem">
+					<Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="MouseOver">
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="contentPresenter" Storyboard.TargetProperty="Opacity">
+											<SplineDoubleKeyFrame KeyTime="0" Value=".55"/>
+										</DoubleAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="SelectionStates">
+								<VisualState x:Name="Unselected"/>
+								<VisualState x:Name="Selected">
+									<Storyboard>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="Selection" Storyboard.TargetProperty="Opacity">
+											<SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+										</DoubleAnimationUsingKeyFrames>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="Bkg" Storyboard.TargetProperty="Opacity">
+											<SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+										</DoubleAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused">
+								</VisualState>
+								<VisualState x:Name="Unfocused"/>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+                  <Grid 
+                     x:Name="Bkg" 
+                     Background="#7F7F7F" 
+                     Opacity="0"
+                        />
+                  <Grid Margin="16">
+   						<Rectangle 
+                        x:Name="Selection" 
+                        IsHitTestVisible="False" 
+                        RadiusX="3" 
+                        RadiusY="3" 
+                        Opacity="0"
+                        CacheMode="{StaticResource PresentationControl_BitmapCache}"
+                        >
+                        <Rectangle.Fill>
+               				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+               					<GradientStop Color="#FFF9DE51"/>
+               					<GradientStop Color="#FFE4A93C" Offset="1"/>
+               				</LinearGradientBrush>
+                        </Rectangle.Fill>
+                     </Rectangle>
+   						<ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                  </Grid>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+   
+   <DataTemplate x:Key="PresentationControl_FontName">
+      <TextBlock Text="{Binding Mode=OneWay}"/>
+   </DataTemplate>
+   
+   <DataTemplate x:Key="PresentationControl_FontSize">
+      <TextBlock Text="{Binding Mode=OneWay}"/>
+   </DataTemplate>
+   
+   <Style TargetType="Controls:PresentationControl">
+      <Setter Property="ShapeTemplate" Value="{StaticResource PresentationControl_ShapeDefinition}"/>
+      <Setter Property="PictureTemplate" Value="{StaticResource PresentationControl_PictureDefinition}"/>
+      <Setter Property="Template">
+         <Setter.Value>
+            <ControlTemplate TargetType="Controls:PresentationControl">
+               <Grid>
+                  <Grid 
+                     x:Name="REQUIRED_FOR_PRESENT"
+                     Background="#696969"
+                     DataContext="{TemplateBinding Presentation}"
+                     >
+                     <Grid.RowDefinitions>
+                        <RowDefinition Height="29"/>
+                        <RowDefinition Height="59"/>
+                        <RowDefinition Height="26"/>
+                        <RowDefinition Height="*"/>
+                     </Grid.RowDefinitions>
+                     <Grid
+                        Grid.Row="0"
+                        Margin="1,1,1,0"
+                        >
+                        <Grid.Background>
+                           <LinearGradientBrush EndPoint="0,1">
+                              <GradientStop Offset="0" Color="#D1CCDB"/>
+                              <GradientStop Offset="1" Color="#BCB8C9"/>
+                           </LinearGradientBrush>
+                        </Grid.Background>
+                        <StackPanel Orientation="Horizontal">
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_SmallButton}" 
+                              Image="/Presentation.Library;component/Images/New.png"
+                              Caption="New"
+                              Behaviors:Command.Instance="{Binding Path=NewPresentationCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_SmallButton}" 
+                              Image="/Presentation.Library;component/Images/Open.png"
+                              Caption="Open"
+                              Behaviors:Command.Instance="{Binding Path=OpenPresentationCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_SmallButton}" 
+                              Image="/Presentation.Library;component/Images/Save.png"
+                              Caption="Save"
+                              Behaviors:Command.Instance="{Binding Path=SavePresentationCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              />
+                        </StackPanel>
+                        
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                           <Image VerticalAlignment="Center" Stretch="None" Source="/Presentation.Library;component/Images/Icon.png"/>
+                           <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding Path=Name, Mode=OneWay}"  FontWeight="SemiBold" />
+                        </StackPanel>
+                        
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_SmallButton}" 
+                              Image="/Presentation.Library;component/Images/Feedback.png"
+                              Caption="Feedback"
+                              Behaviors:Command.Instance="{Binding Path=FeedbackCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_SmallButton}" 
+                              Image="/Presentation.Library;component/Images/Session.png"
+                              Caption="Login"
+                              Behaviors:Command.Instance="{Binding Path=SessionCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              />
+                        </StackPanel>
+                     </Grid>
+                     <Grid
+                        Grid.Row="1"
+                        Margin="1,1,1,0"
+                        Background="{StaticResource PresentationControl_GrayBackground}"
+                        >
+                        <StackPanel Orientation="Horizontal">
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/NewSlide.png"
+                              Caption="New"
+                              Behaviors:Command.Instance="{Binding Path=NewSlideCommand, Mode=OneWay}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/DuplicateSlide.png"
+                              Caption="Duplicate"
+                              Behaviors:Command.Instance="{Binding Path=DuplicateSlideCommand, Mode=OneWay}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/DeleteSlide.png"
+                              Caption="Delete"
+                              Behaviors:Command.Instance="{Binding Path=DeleteSlideCommand, Mode=OneWay}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Margin="24,0,0,0"
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/Themes.png"
+                              Caption="Themes"
+                              Behaviors:Command.Instance="{Binding Path=SelectThemeCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/Layouts.png"
+                              Caption="Layouts"
+                              Behaviors:Command.Instance="{Binding Path=SelectLayoutCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Margin="24,0,0,0"
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/Photos.png"
+                              Caption="Pictures"
+                              Behaviors:Command.Instance="{Binding Path=InsertPhotoElementCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/Movies.png"
+                              Caption="Movies"
+                              Behaviors:Command.Instance="{Binding Path=InsertMovieElementCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/NewShapes.png"
+                              Caption="Shapes"
+                              Behaviors:Command.Instance="{Binding Path=InsertShapeElementCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/Text.png"
+                              Caption="Text"
+                              Behaviors:Command.Instance="{Binding Path=InsertTextElementCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Margin="24,0,0,0"
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/Notes.png"
+                              Caption="Notes"
+                              Behaviors:Command.Instance="{Binding Path=ToggleNotesCommand, Mode=OneWay}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Margin="24,0,0,0"
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/Front.png"
+                              Caption="Front"
+                              Behaviors:Command.Instance="{Binding Path=CurrentSlide.BringToFrontCommand, Mode=OneWay}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/Back.png"
+                              Caption="Back"
+                              Behaviors:Command.Instance="{Binding Path=CurrentSlide.SendToBackCommand, Mode=OneWay}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Margin="24,0,0,0"
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/Undo.png"
+                              Caption="Undo"
+                              Behaviors:Command.Instance="{Binding Path=UndoCommand, Mode=OneWay}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/Redo.png"
+                              Caption="Redo"
+                              Behaviors:Command.Instance="{Binding Path=RedoCommand, Mode=OneWay}"
+                              />
+                        </StackPanel>                        
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/Present.png"
+                              Caption="Present"
+                              Behaviors:Command.Instance="{Binding Path=PresentCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/Download.png"
+                              Caption="Download"
+                              />
+                           <Controls:ImageCaptionButton 
+                              Style="{StaticResource PresentationControl_BigButton}" 
+                              Image="/Presentation.Library;component/Images/Share.png"
+                              Caption="Share"
+                              />
+                        </StackPanel>
+                     </Grid>
+                     <Grid
+                        Grid.Row="2"
+                        Margin="1,1,1,0"
+                        >
+                        <Grid.Background>
+                           <LinearGradientBrush EndPoint="0,1" MappingMode="Absolute">
+                              <GradientStop Offset="0" Color="#E2E2E2"/>
+                              <GradientStop Offset="1" Color="#E2E2E2"/>
+                              <GradientStop Offset="1" Color="#C7C7C7"/>
+                           </LinearGradientBrush>
+                        </Grid.Background>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                           <ComboBox 
+                              Margin="11,0,0,0" 
+                              Width="125" 
+                              Style="{StaticResource PresentationControl_FontSelector}"
+                              IsEnabled="{Binding Path=CurrentSlide.CurrentElement, Mode=OneWay, Converter={StaticResource PresentationControl_TypeToBoolValueConverter}, ConverterParameter='Font'}"
+                              ItemsSource="{TemplateBinding FontNames}"
+                              ItemTemplate="{StaticResource PresentationControl_FontName}"
+                              SelectedItem="{Binding Path=CurrentSlide.CurrentElement.FontName, Mode=TwoWay}"
+                              >
+                           </ComboBox>
+                           <ComboBox 
+                              Margin="11,0,0,0" 
+                              Width="50" 
+                              Style="{StaticResource PresentationControl_FontSelector}"
+                              IsEnabled="{Binding Path=CurrentSlide.CurrentElement, Mode=OneWay, Converter={StaticResource PresentationControl_TypeToBoolValueConverter}, ConverterParameter='Font'}"
+                              ItemsSource="{TemplateBinding FontSizes}"
+                              ItemTemplate="{StaticResource PresentationControl_FontSize}"
+                              SelectedItem="{Binding Path=CurrentSlide.CurrentElement.FontSize, Mode=TwoWay}"
+                              >
+                           </ComboBox>
+                           <Border Margin="11,0,0,0" BorderBrush="#575757" BorderThickness="2" Background="White" Width="35" Height="17"/>
+                           
+                           <Border Style="{StaticResource PresentationControl_Seperator}"/>
+                           
+                           <RadioButton 
+                              Style="{StaticResource PresentationControl_ToolBarButton}" Margin="11,0,0,0" BorderThickness="1,1,1,1" GroupName="Formatting">
+                              <Image 
+                                 Stretch="None"
+                                 Source="/Presentation.Library;component/Images/FormattingBold.png"
+                                 />
+                           </RadioButton>
+                           <RadioButton Style="{StaticResource PresentationControl_ToolBarButton}" BorderThickness="0,1,1,1" GroupName="Formatting">
+                              <Image 
+                                 Stretch="None"
+                                 Source="/Presentation.Library;component/Images/FormattingItalic.png"
+                                 />
+                           </RadioButton>
+                           <RadioButton Style="{StaticResource PresentationControl_ToolBarButton}" BorderThickness="0,1,1,1" GroupName="Formatting">
+                              <Image 
+                                 Stretch="None"
+                                 Source="/Presentation.Library;component/Images/FormattingUnderline.png"
+                                 />
+                           </RadioButton>
+                           
+                           <Border Style="{StaticResource PresentationControl_Seperator}"/>
+                           
+                           <RadioButton Style="{StaticResource PresentationControl_ToolBarButton}" Margin="11,0,0,0" BorderThickness="1,1,1,1" GroupName="Alignment">
+                              <Image 
+                                 Stretch="None"
+                                 Source="/Presentation.Library;component/Images/AlignmentLeft.png"
+                                 />
+                           </RadioButton>
+                           <RadioButton Style="{StaticResource PresentationControl_ToolBarButton}" BorderThickness="0,1,1,1" GroupName="Alignment">
+                              <Image 
+                                 Stretch="None"
+                                 Source="/Presentation.Library;component/Images/AlignmentCenter.png"
+                                 />
+                           </RadioButton>
+                           <RadioButton Style="{StaticResource PresentationControl_ToolBarButton}" BorderThickness="0,1,1,1" GroupName="Alignment">
+                              <Image 
+                                 Stretch="None"
+                                 Source="/Presentation.Library;component/Images/AlignmentRight.png"
+                                 />
+                           </RadioButton>
+                           <RadioButton Style="{StaticResource PresentationControl_ToolBarButton}" BorderThickness="0,1,1,1" GroupName="Alignment">
+                              <Image 
+                                 Stretch="None"
+                                 Source="/Presentation.Library;component/Images/AlignmentJustified.png"
+                                 />
+                           </RadioButton>
+                           
+                           <Border Style="{StaticResource PresentationControl_Seperator}"/>
+                           
+                           <RadioButton Style="{StaticResource PresentationControl_ToolBarButton}" Margin="11,0,0,0" BorderThickness="1,1,1,1" GroupName="BulletIndention">
+                              <Image 
+                                 Stretch="None"
+                                 Source="/Presentation.Library;component/Images/BulletIndentationDecrease.png"
+                                 />
+                           </RadioButton>
+                           <RadioButton Style="{StaticResource PresentationControl_ToolBarButton}" BorderThickness="0,1,1,1" GroupName="BulletIndention">
+                              <Image 
+                                 Stretch="None"
+                                 Source="/Presentation.Library;component/Images/BulletIndentationIncrease.png"
+                                 />
+                           </RadioButton>
+                           <RadioButton Style="{StaticResource PresentationControl_ToolBarButton}" Margin="11,0,0,0" BorderThickness="1,1,1,1" GroupName="BulletStyle">
+                              <Image 
+                                 Stretch="None"
+                                 Source="/Presentation.Library;component/Images/BulletStyleDot.png"
+                                 />
+                           </RadioButton>
+                           <RadioButton Style="{StaticResource PresentationControl_ToolBarButton}" BorderThickness="0,1,1,1" GroupName="BulletStyle">
+                              <Image 
+                                 Stretch="None"
+                                 Source="/Presentation.Library;component/Images/BulletStyleNumber.png"
+                                 />
+                           </RadioButton>
+                           
+                           <Border Style="{StaticResource PresentationControl_Seperator}"/>
+                           
+                           <Border Margin="11,0,0,0" BorderBrush="#575757" BorderThickness="2" Background="White" Width="35" Height="17"/>
+                           <TextBlock Margin="11,0,0,0" VerticalAlignment="Center" Text="Opacity:"/>
+                           <Slider 
+                              Margin="11,0,0,0" 
+                              Style="{StaticResource PresentationControl_OpacityControl}" 
+                              IsEnabled="{Binding Path=CurrentSlide.CurrentElement, Mode=OneWay, Converter={StaticResource PresentationControl_TypeToBoolValueConverter}}"
+                              Value="{Binding Path=CurrentSlide.CurrentElement.OpacityPercent, Mode=TwoWay}"                              
+                              />
+                           <TextBlock 
+                              Margin="4,0,0,0" 
+                              VerticalAlignment="Center"
+                              Text="{Binding Path=CurrentSlide.CurrentElement.OpacityPercent, Mode=OneWay}"
+                              />
+                           <TextBlock 
+                              VerticalAlignment="Center"
+                              Text="%"
+                              />
+                        </StackPanel>
+                        
+                     </Grid>
+                     <Grid
+                        Grid.Row="3"
+                        Margin="1,1,1,0"
+                        >
+                        <Grid>
+                           <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="200"/>
+                              <ColumnDefinition Width="*"/>
+                              <ColumnDefinition Width="Auto"/>
+                           </Grid.ColumnDefinitions>
+                           <Grid Grid.Column="0">
+                              <Grid.RowDefinitions>
+                                 <RowDefinition Height="*"/>
+                                 <RowDefinition Height="Auto"/>
+                              </Grid.RowDefinitions>
+                              <ListBox 
+                                 Grid.Row="0"
+                                 Background="#D1D8E3"
+                                 SelectedItem="{Binding Path=CurrentSlide, Mode=TwoWay}"
+                                 ItemsSource="{Binding Path=Slides, Mode=OneWay}"
+                                 ItemTemplate="{StaticResource PresentationControl_OverviewSlide}"
+                                 ItemContainerStyle="{StaticResource PresentationControl_OverviewItem}"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                 Padding="0"
+                                 >
+                              </ListBox>
+                           </Grid>
+                           <Grid Grid.Column="1">
+                              <Border
+                                 CacheMode="{StaticResource PresentationControl_BitmapCache}">
+                                 <Border.Background>
+                                    <LinearGradientBrush EndPoint="0,1">
+                                       <GradientStop Offset="0" Color="#A2A2A2"/>
+                                       <GradientStop Offset="0.5" Color="#D7D7D7"/>
+                                       <GradientStop Offset="1" Color="#A2A2A2"/>
+                                    </LinearGradientBrush>
+                                 </Border.Background>
+                              </Border>
+                              
+                              <Controls:OptionalContentControl
+                                 OptionalContent="{Binding Path=CurrentSlide, Mode=OneWay}"
+                                 VerticalContentAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 >
+                                 <Controls:OptionalContentControl.OptionalContentTemplate>
+                                    <DataTemplate>
+                                       <Controls:EditingSlideControl
+                                          Margin="12"
+                                          SelectedElement="{Binding CurrentElement, Mode=TwoWay}"
+                                          Slide="{Binding Mode=OneWay}"
+                                          x:Name="CurrentSlideControl"
+                                          />
+                                    </DataTemplate>
+                                 </Controls:OptionalContentControl.OptionalContentTemplate>
+                              </Controls:OptionalContentControl>
+                                 
+                                 <!--<Controls:SlideControl.Effect>
+                                    <DropShadowEffect 
+                                       BlurRadius="12"
+                                       Color="Black"
+                                       ShadowDepth="0"
+                                       />
+                                 </Controls:SlideControl.Effect>-->
+                           </Grid>
+                           <Grid 
+                              Grid.Column="2"
+                              Width="200"
+                              Visibility="{Binding NotesVisibility, Mode=OneWay}"
+                              >
+                              <Grid.RowDefinitions>
+                                 <RowDefinition Height="Auto"/>
+                                 <RowDefinition Height="*"/>
+                              </Grid.RowDefinitions>
+                              <Border
+                                 Grid.Row="0"
+                                 Background="{StaticResource PresentationControl_GrayBackground}"
+                                 CacheMode="{StaticResource PresentationControl_BitmapCache}"
+                                 >
+                                 <TextBlock TextAlignment="Center" Text="Presentation Notes"/>
+                              </Border>
+                              <TextBox
+                                 Grid.Row="1"
+                                 AcceptsReturn="True"
+                                 Text="{Binding Path=CurrentSlide.Note, Mode=TwoWay}"
+                                 />
+                           </Grid>
+                        </Grid>
+                     </Grid>
+                  </Grid>
+                  <Controls:PopupControl x:Name="REQUIRED_FOR_POPUP" Visibility="Collapsed"/>
+                  <Controls:PopupControl x:Name="REQUIRED_FOR_PLAIN_POPUP" Visibility="Collapsed" Style="{StaticResource PresentationControl_PlainPopup}" />
+               </Grid>
+            </ControlTemplate>
+         </Setter.Value>
+      </Setter>
+   </Style>
+</ResourceDictionary>

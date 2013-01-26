@@ -1,0 +1,47 @@
+﻿<ResourceDictionary
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+   xmlns:Controls="clr-namespace:Presentation.Library.Controls"
+   >
+	<Style TargetType="Controls:SearchControl">
+      <Setter Property="VerticalAlignment" Value="Stretch"/>
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="Template">
+         <Setter.Value>
+            <ControlTemplate TargetType="Controls:SearchControl">
+               <Grid
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  >
+                  <Grid.RowDefinitions>
+                     <RowDefinition Height="Auto"/>
+                     <RowDefinition Height="*"/>
+                  </Grid.RowDefinitions>
+                  <Controls:SearchTextBox 
+                     x:Name="REQUIRED_FOR_SEARCH"
+                     Grid.Row="0"
+                     FontSize="16"
+                     SearchText="{Binding Path=SearchString ,Mode=TwoWay ,RelativeSource={RelativeSource TemplatedParent}}"
+                     />
+                  <ListBox
+                     Margin="0,8,0,0"
+                     Grid.Row="1"
+                     Background="Transparent"
+                     SelectedItem="{Binding Path=CurrentSearchResultItem,Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                     ItemsSource="{TemplateBinding SearchResultItems}"
+                     ItemTemplate="{TemplateBinding SearchItemTemplate}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     >
+                     <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                           <Controls:AnimatedWrapPanel Orientation="Horizontal"  />
+                        </ItemsPanelTemplate>
+                     </ListBox.ItemsPanel>
+                  </ListBox>
+               </Grid>               
+            </ControlTemplate>
+         </Setter.Value>
+      </Setter>
+   </Style>
+
+</ResourceDictionary>
